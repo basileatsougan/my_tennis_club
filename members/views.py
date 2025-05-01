@@ -6,7 +6,7 @@ from .models import Member
 # Create your views here.
 
 def members(request):
-    members = Member.objects.all().values()
+    members = Member.objects.all()
     template = loader.get_template('all_members.html')
     context = {
         "mymembers": members
@@ -28,8 +28,11 @@ def main(request):
 
 
 def testing(request):
-    template = loader.get_template("template.html")
+    # mydata = Member.objects.values_list('firstname', flat=True)
+    mydata = Member.objects.filter(firstname='Basile').values()
+
+    template = loader.get_template('template.html')
     context = {
-        'fruits': ['Apple', 'Banana', 'Cherry'],
+        'mymembers': mydata,
     }
     return HttpResponse(template.render(context, request))
